@@ -5,23 +5,20 @@ import android.os.Bundle
 import io.github.tuguzt.viewmodellivedatapractice.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    companion object RandomNumber : SingletonHolder<RandomNumberViewModel>() {
-        override val constructor = { RandomNumberViewModel() }
-    }
-
     private lateinit var binding: ActivityMainBinding
+    private val viewModel get() = RandomNumberViewModel.instance
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        instance.currentNumber.observe(this) {
+        viewModel.currentNumber.observe(this) {
             binding.rndNum.text = it.toString()
         }
 
         binding.getRnd.setOnClickListener {
-            instance.generate()
+            viewModel.generate()
         }
     }
 }
